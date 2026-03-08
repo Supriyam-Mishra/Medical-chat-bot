@@ -1,0 +1,18 @@
+Metadata-Version: 2.4
+Name: medical_chatbot
+Version: 0.1.0
+Summary: A medical chatbot using LangChain and Flask
+Author: Supriya Mishra
+Author-email: surpiyammishra1@gmail.com
+Requires-Dist: langchain==0.3.26
+Requires-Dist: flask==3.1.1
+Requires-Dist: sentence-transformers==4.1.0
+Requires-Dist: pypdf==5.6.1
+Requires-Dist: python-dotenv==1.1.0
+Requires-Dist: langchain-pinecone==0.2.8
+Requires-Dist: langchain-openai==0.3.24
+Requires-Dist: langchain-community==0.3.26
+Dynamic: author
+Dynamic: author-email
+Dynamic: requires-dist
+Dynamic: summary
