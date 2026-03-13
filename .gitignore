@@ -1,1 +1,48 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+.venv/
+env/
+venv/
+ENV/
+bin/
+lib/
+include/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Flask specific
+instance/
+.webassets-cache/
+
+# Editors and IDEs
+.idea/  # JetBrains IDEs (e.g., PyCharm)
+.vscode/ # Visual Studio Code
+*.swp
+*~
+.DS_Store # macOS files
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment variables
 .env
+.flaskenv
