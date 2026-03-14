@@ -6,15 +6,24 @@ A Medical AI Chatbot built using Retrieval-Augmented Generation (RAG) that answe
 
 The system integrates LangChain, Pinecone, Sentence Transformers, OpenAI, and Flask, and is containerized using Docker and deployed on AWS (ECR + EC2).
 
-🚀 Demo
+---
 
-Example interaction:
+## 🚀 Demo
 
+**Example interaction:**
+
+```
 User: What are the symptoms of diabetes?
 
-Chatbot: Common symptoms of diabetes include increased thirst,
-frequent urination, fatigue, blurred vision, and slow healing wounds.
-🧠 System Architecture
+Chatbot: Common symptoms of diabetes include increased thirst, frequent urination, 
+fatigue, blurred vision, and slow healing wounds.
+```
+
+---
+
+## 🧠 System Architecture
+
+```
                    User
                     │
                     ▼
@@ -42,196 +51,229 @@ Sentence Transformer        Query Embedding
                     │
                     ▼
                Flask UI Output
-🛠️ Tech Stack
-Layer	Technology
-LLM	OpenAI
-Framework	LangChain
-Vector Database	Pinecone
-Embeddings	Sentence Transformers
-Backend	Flask
-Programming Language	Python
-Containerization	Docker
-Cloud	AWS EC2
-Container Registry	AWS ECR
-📂 Project Pipeline
-1️⃣ Document Loading
+```
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| LLM | OpenAI |
+| Framework | LangChain |
+| Vector Database | Pinecone |
+| Embeddings | Sentence Transformers |
+| Backend | Flask |
+| Programming Language | Python |
+| Containerization | Docker |
+| Cloud | AWS EC2 |
+| Container Registry | AWS ECR |
+
+---
+
+## 📂 Project Pipeline
+
+### 1️⃣ Document Loading
 
 Medical knowledge is loaded from a document and used as the chatbot's knowledge base.
 
-Steps:
+**Steps:**
+- Load document
+- Clean text
+- Split into chunks
 
-Load document
-
-Clean text
-
-Split into chunks
-
-2️⃣ Text Chunking
+### 2️⃣ Text Chunking
 
 Large documents are split into smaller chunks to improve retrieval accuracy.
 
-Benefits:
+**Benefits:**
+- Better semantic search
+- Faster retrieval
+- Improved LLM context
 
-Better semantic search
+### 3️⃣ Embedding Generation
 
-Faster retrieval
-
-Improved LLM context
-
-3️⃣ Embedding Generation
-
-Each chunk is converted into embeddings using:
-
-Sentence Transformers
+Each chunk is converted into embeddings using **Sentence Transformers**.
 
 Embeddings represent the semantic meaning of the text.
 
-4️⃣ Vector Storage (Pinecone)
+### 4️⃣ Vector Storage (Pinecone)
 
 Embeddings are stored in Pinecone Vector Database.
 
-Advantages:
+**Advantages:**
+- Fast similarity search
+- Scalable vector storage
+- Efficient retrieval
 
-Fast similarity search
-
-Scalable vector storage
-
-Efficient retrieval
-
-5️⃣ Retrieval-Augmented Generation (RAG)
+### 5️⃣ Retrieval-Augmented Generation (RAG)
 
 When a user asks a question:
+- Query is converted into embeddings
+- Pinecone retrieves the most relevant chunks
+- Context is passed to the LLM
+- LLM generates a grounded response
 
-Query is converted into embeddings
-
-Pinecone retrieves the most relevant chunks
-
-Context is passed to the LLM
-
-LLM generates a grounded response
-
-6️⃣ Response Generation
+### 6️⃣ Response Generation
 
 The OpenAI model generates the final response using retrieved context.
 
 LangChain manages the entire RAG pipeline.
 
-🌐 Flask Web Application
+---
+
+## 🌐 Flask Web Application
 
 The user interacts with the chatbot through a Flask-based web interface.
 
-Flask handles:
+**Flask handles:**
+- User input
+- Query processing
+- LLM response display
 
-User input
+---
 
-Query processing
+## ⚙️ Local Setup
 
-LLM response display
+### 1. Clone Repository
 
-⚙️ Local Setup
-Clone Repository
+```bash
 git clone https://github.com/Supriyam-Mishra/Medical-chat-bot.git
+cd Medical-chat-bot
+```
 
+### 2. Create Virtual Environment
 
-Create Virtual Environment
+```bash
 python -m venv venv
+```
 
-Activate:
+**Activate:**
 
-Mac/Linux
-
+**Mac/Linux:**
+```bash
 source venv/bin/activate
+```
 
-Windows
-
+**Windows:**
+```bash
 venv\Scripts\activate
-Install Dependencies
+```
+
+### 3. Install Dependencies
+
+```bash
 pip install -r requirements.txt
-Configure Environment Variables
+```
 
-Create .env
+### 4. Configure Environment Variables
 
+Create a `.env` file in the root directory:
+
+```env
 OPENAI_API_KEY=your_openai_api_key
 PINECONE_API_KEY=your_pinecone_api_key
 PINECONE_ENV=your_environment
-Run Application
+```
+
+### 5. Run Application
+
+```bash
 python app.py
+```
 
-Open browser:
+Open your browser and navigate to:
+```
+http://localhost:8080
+```
 
-http://localhost:5000
-🐳 Docker Setup
-Build Docker Image
+---
+
+## 🐳 Docker Setup
+
+### Build Docker Image
+
+```bash
 docker build -t medical-chatbot .
-Run Docker Container
-docker run -p 5000:5000 medical-chatbot
-☁️ AWS Deployment
+```
+
+### Run Docker Container
+
+```bash
+docker run -p 8080:8080 medical-chatbot
+```
+
+---
+
+## ☁️ AWS Deployment
 
 The project is deployed using:
+- **AWS ECR** (Docker Image Registry)
+- **AWS EC2** (Compute Instance)
 
-AWS ECR (Docker Image Registry)
+### Step 1: Create IAM Role
 
-AWS EC2 (Compute Instance)
-
-Step 1: Create IAM Role
-
-Permissions used:
-
-AmazonEC2FullAccess
-
-AmazonEC2ContainerRegistryFullAccess
+**Permissions used:**
+- AmazonEC2FullAccess
+- AmazonEC2ContainerRegistryFullAccess
 
 This allows EC2 instances to pull images from ECR and run containers.
 
-Step 2: Push Docker Image to ECR
+### Step 2: Push Docker Image to ECR
+
+```bash
 docker tag medical-chatbot:latest <ECR_REPOSITORY_URI>
-
 docker push <ECR_REPOSITORY_URI>
-Step 3: Launch EC2 Instance
+```
 
-Steps:
+### Step 3: Launch EC2 Instance
 
-Launch EC2
+**Steps:**
+- Launch EC2 instance
+- Attach IAM role
+- Install Docker
+- Pull image from ECR:
 
-Attach IAM role
-
-Install Docker
-
-Pull image from ECR
-
+```bash
 docker pull <ECR_REPOSITORY_URI>
-Step 4: Run Container
-docker run -d -p 80:5000 <ECR_REPOSITORY_URI>
+```
 
-Access the chatbot via EC2 Public IP.
+### Step 4: Run Container
 
-💡 Key Features
+```bash
+docker run -d -p 80:8080 <ECR_REPOSITORY_URI>
+```
 
-✅ Retrieval-Augmented Generation (RAG)
-✅ Semantic search using Pinecone
-✅ Context-aware responses
-✅ Flask-based UI
-✅ Docker containerization
-✅ AWS cloud deployment
-✅ Scalable architecture
+Access the chatbot via your EC2 Public IP.
 
-🔮 Future Improvements
+---
 
-Multi-document support
+## 💡 Key Features
 
-Chat memory
+✅ Retrieval-Augmented Generation (RAG)  
+✅ Semantic search using Pinecone  
+✅ Context-aware responses  
+✅ Flask-based UI  
+✅ Docker containerization  
+✅ AWS cloud deployment  
+✅ Scalable architecture  
 
-Authentication system
+---
 
-Kubernetes deployment
+## 🔮 Future Improvements
 
-Monitoring & logging
+- Multi-document support
+- Chat memory
+- Authentication system
+- Kubernetes deployment
+- Monitoring & logging
+- Streaming responses
 
-Streaming responses
+---
 
-👨‍💻 Author
+## 👨‍💻 Author
 
-Supriyam Mishra and Rajiv Nagar
+**Supriyam Mishra** and **Rajiv Nagar**
 
-AI / Data Science Enthusiast
+AI / Data Science Enthusiast  
 Focused on LLMs, RAG Systems, and AI Engineering
