@@ -58,11 +58,17 @@ def index():
 @app.route("/get", methods=["GET", "POST"])
 def chat():
     msg = request.form["msg"]
-    input = msg
-    print(input)
+    user_query = msg.lower().strip()
+
+    # Handle greetings
+    greetings = ["hi", "hello", "Hola", "hey", "good morning", "good evening"]
+
+    if user_query in greetings:
+        return "Hello! I am a medical assistant. How can I help you today?"
+
     response = rag_chain.invoke({"input": msg})
-    print("Response : ", response["answer"])
     return str(response["answer"])
+
 
 
 
